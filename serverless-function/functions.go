@@ -36,7 +36,7 @@ func WebhookEndpoint(w http.ResponseWriter, r *http.Request) {
 
 	router.Route("/v1", func(v1Router chi.Router) {
 
-		v1Router.Post("/webhooks{provider}", WebhooksHandler)
+		v1Router.Post("/webhooks/{provider}", WebhooksHandler)
 	})
 
 	// Serve Request.
