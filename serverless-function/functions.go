@@ -7,10 +7,9 @@ import (
 
 	"github.com/frain-dev/convoy/pkg/verifier"
 	"github.com/go-chi/chi/v5"
+	"github.com/gobinary/go/pkg/mod/github.com/frain-dev/convoy@v0.7.0/pkg/verifier"
 	log "github.com/sirupsen/logrus"
 )
-
-type ProviderStore map[string]verifier.Verifier
 
 var (
 	// GOOGLE_CLOUD_PROJECT is a user-set environment variable.
@@ -22,11 +21,7 @@ var (
 	// Retrieve Github webhooks secret.
 	githubSecret = os.Getenv("GITHUB_WEBHOOK_SECRET")
 
-	// setup providerstore
-	providerStore = ProviderStore{
-		"github":   getGithubVerifier(),
-		"paystack": getPaystackVerifier(),
-	}
+	pv = getConvoyVerifier()
 )
 
 // WebhookEndpoint is a HTTP Function to receive events from the world.
@@ -44,10 +39,6 @@ func WebhookEndpoint(w http.ResponseWriter, r *http.Request) {
 }
 
 func WebhooksHandler(w http.ResponseWriter, r *http.Request) {
-	// Identify sender.
-	providerName := chi.URLParam(r, "provider")
-	pv := providerStore[providerName]
-
 	// Read Request.
 	payload, err := ioutil.ReadAll(r.Body)
 	if err != nil {
@@ -70,15 +61,11 @@ func WebhooksHandler(w http.ResponseWriter, r *http.Request) {
 	// Perform business logic.
 }
 
-func getGithubVerifier() verifier.Verifier {
-	return verifier.NewGithubVerifier(githubSecret)
-}
-
-func getPaystackVerifier() verifier.Verifier {
+func getConvoyVerifier() verifier.Verifier {
 	return verifier.NewHmacVerifier(&verifier.HmacOptions{
-		Header:   "X-Paystack-Signature",
+		Header:   "X-Convoy-Signature",
 		Hash:     "SHA256",
-		Secret:   paystackSecret,
+		Secret:   convoySecret,
 		Encoding: "hex",
 	})
 }
