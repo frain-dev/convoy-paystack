@@ -7,7 +7,6 @@ import (
 
 	"github.com/frain-dev/convoy/pkg/verifier"
 	"github.com/go-chi/chi/v5"
-	"github.com/gobinary/go/pkg/mod/github.com/frain-dev/convoy@v0.7.0/pkg/verifier"
 	log "github.com/sirupsen/logrus"
 )
 
