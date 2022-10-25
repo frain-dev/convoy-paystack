@@ -11,14 +11,8 @@ import (
 )
 
 var (
-	// GOOGLE_CLOUD_PROJECT is a user-set environment variable.
-	projectID = os.Getenv("GOOGLE_CLOUD_PROJECT")
-
-	// Retrieve Paystack webhooks secret.
-	paystackSecret = os.Getenv("PAYSTACK_WEBHOOK_SECRET")
-
-	// Retrieve Github webhooks secret.
-	githubSecret = os.Getenv("GITHUB_WEBHOOK_SECRET")
+	// Retrieve convoy webhooks secret.
+	convoySecret = os.Getenv("CONVOY_WEBHOOK_SECRET")
 
 	pv = getConvoyVerifier()
 )
