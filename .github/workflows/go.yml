@@ -34,13 +34,13 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Get and verify dependencies
-        run: go mod download && go mod verify
+        run: cd serverless-function && go mod download && go mod verify
 
       - name: Build webhooks handler to make sure there are zero issues
-        run: cd cmd/ && go build -o webhooks-handler
+        run: cd serverless-function && cd cmd/ && go build -o webhooks-handler
 
       - name: Go vet
-        run: go vet ./...
+        run: cd serverless-function && go vet ./...
 
       - name: Run unit test
-        run: go test ./...
+        run: cd serverless-function && go test ./...
