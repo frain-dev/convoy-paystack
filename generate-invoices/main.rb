@@ -28,8 +28,9 @@ customers = [
 ]
 
 paystack_obj = Paystack.new(ENV['PUBLIC_KEY'], ENV['SECRET_KEY'])
+invoice_count = ENV['INVOICE_COUNT']
 
-1.times do 
+invoice_count.times do 
   idx = rand(0...4)
   payload["description"] = customers[idx][:name] + "'s invoice"
   payload["customer"] = customers[idx][:customer_id]
