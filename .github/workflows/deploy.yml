@@ -25,12 +25,11 @@ jobs:
 
       - id: "deploy"
         uses: google-github-actions/deploy-cloud-functions@main
-        with:
         source_dir: "serverless-function"
+        with:
           name: WebhookEndpoint
           runtime: go116
           env_vars: "${{ secrets.webhook_endpoint_env_vars }}"
 
       - id: "output"
         run: 'curl "${{ steps.deploy.outputs.url }}"'
-
