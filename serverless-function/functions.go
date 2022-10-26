@@ -1,6 +1,7 @@
 package webhooks
 
 import (
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"os"
@@ -13,6 +14,9 @@ import (
 var (
 	// Retrieve convoy webhooks secret.
 	convoySecret = os.Getenv("CONVOY_WEBHOOK_SECRET")
+
+	// Retrieve hash
+	hash = os.Getenv("CONVOY_HASH")
 
 	pv = getConvoyVerifier()
 )
@@ -32,6 +36,7 @@ func WebhookEndpoint(w http.ResponseWriter, r *http.Request) {
 }
 
 func WebhooksHandler(w http.ResponseWriter, r *http.Request) {
+	fmt.Println(r.Header)
 	// Read Request.
 	payload, err := ioutil.ReadAll(r.Body)
 	if err != nil {
@@ -56,8 +61,8 @@ func WebhooksHandler(w http.ResponseWriter, r *http.Request) {
 
 func getConvoyVerifier() verifier.Verifier {
 	return verifier.NewHmacVerifier(&verifier.HmacOptions{
-		Header:   "X-Convoy-Signature",
-		Hash:     "SHA256",
+		Header:   "X-Paystack-Signature",
+		Hash:     hash,
 		Secret:   convoySecret,
 		Encoding: "hex",
 	})
