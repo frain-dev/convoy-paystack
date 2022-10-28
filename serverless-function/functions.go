@@ -15,8 +15,11 @@ var (
 	// Retrieve convoy webhooks secret.
 	convoySecret = os.Getenv("CONVOY_WEBHOOK_SECRET")
 
-	// Retrieve hash
+	// Retrieve Hash
 	hash = os.Getenv("CONVOY_HASH")
+
+	// Retrieve Header
+	header = os.Getenv("CONVOY_HEADER")
 
 	pv = getConvoyVerifier()
 )
@@ -61,7 +64,7 @@ func WebhooksHandler(w http.ResponseWriter, r *http.Request) {
 
 func getConvoyVerifier() verifier.Verifier {
 	return verifier.NewHmacVerifier(&verifier.HmacOptions{
-		Header:   "X-Paystack-Signature",
+		Header:   header,
 		Hash:     hash,
 		Secret:   convoySecret,
 		Encoding: "hex",
