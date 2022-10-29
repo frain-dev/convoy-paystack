@@ -109,12 +109,13 @@ func getPaystackVerifier() verifier.Verifier {
 
 func getConvoyVerifier() *client.Webhook {
 	opts := client.ConfigOpts{
-		SigHeader: header,
-		Hash:      hash,
-		Secret, convoySecret,
+		SigHeader:  header,
+		Hash:       hash,
+		Secret:     convoySecret,
 		IsAdvanced: true,
 		Encoding:   client.HexEncoding,
-		Tolerance:  5 * time.Duration,
+		Tolerance:  5 * time.Minute,
 	}
-	return &client.NewWebhook(&opts)
+
+	return client.NewWebhook(&opts)
 }
