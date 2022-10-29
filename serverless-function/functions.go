@@ -85,6 +85,7 @@ func AdvancedWebhooksHandler(w http.ResponseWriter, r *http.Request) {
 
 	// Verify Request
 	cv.Payload = payload
+	cv.SigHeader = r.Header.Get(header)
 	err = cv.Verify()
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
@@ -109,7 +110,6 @@ func getPaystackVerifier() verifier.Verifier {
 
 func getConvoyVerifier() *client.Webhook {
 	opts := client.ConfigOpts{
-		SigHeader:  header,
 		Hash:       hash,
 		Secret:     convoySecret,
 		IsAdvanced: true,
